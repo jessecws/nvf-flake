@@ -1,0 +1,2 @@
+# ingore nix flake builds result directory
+/result
