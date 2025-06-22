@@ -27,9 +27,8 @@ in {
     vimAlias = true;
     clipboard = {
       registers = "unnamedplus";
-      providers.wl-copy.enable = true; # For Wayland
-      providers.xclip.enable = true; # For X11
-      providers.pbcopy.enable = true; # For macOS
+      providers.wl-copy.enable = false; # For Wayland
+      providers.xclip.enable = false; # For X11
     };
     debugMode = {
       enable = false;
@@ -38,6 +37,8 @@ in {
     };
 
     options = {
+      clipboard = "unnamedplus";
+      
       tabstop = 4;
       softtabstop = 4;
       shiftwidth = 4;
