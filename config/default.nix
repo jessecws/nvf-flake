@@ -1,4 +1,4 @@
-{...}: let
+{lib, ...}: let
   currentSystemHome = builtins.getEnv "HOME";
 
   evaledUndoDir =
@@ -25,6 +25,12 @@ in {
   config.vim = {
     viAlias = true;
     vimAlias = true;
+
+    # Suppress lspconfig deprecation warning until NVF migrates to vim.lsp.config
+    luaConfigRC.suppress-lspconfig-warning = ''
+      vim.deprecate = function() end
+    '';
+
     clipboard = {
       registers = "unnamedplus";
       providers.wl-copy.enable = false; # For Wayland
@@ -97,7 +103,7 @@ in {
       enableExtraDiagnostics = true;
 
       nix.enable = true;
-      markdown.enable = true;
+      # markdown is configured in avante.nix with markdown-oxide instead of marksman
 
       bash.enable = true;
       clang.enable = true;
@@ -110,7 +116,10 @@ in {
       go.enable = true;
       lua.enable = true;
       zig.enable = true;
-      python.enable = true;
+      python = {
+        enable = true;
+        lsp.server = "python-lsp-server";
+      };
       typst.enable = true;
       rust = {
         enable = true;

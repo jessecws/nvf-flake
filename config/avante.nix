@@ -4,6 +4,7 @@
     languages = {
       markdown = {
         enable = true;
+        lsp.enable = false; # Disable marksman, we'll use markdown-oxide instead
         extensions.render-markdown-nvim = {
           enable = true;
           setupOpts = {
@@ -15,6 +16,21 @@
         };
       };
     };
+
+    # Manually configure markdown-oxide LSP using new Neovim 0.11+ API
+    luaConfigRC.markdown-oxide = ''
+      vim.lsp.config('markdown_oxide', {
+        cmd = { 'markdown-oxide' },
+        filetypes = { 'markdown', 'Avante' },
+        root_markers = { '.git', '.moxide.toml', '.obsidian' },
+        on_attach = default_on_attach,
+        capabilities = capabilities,
+      })
+
+      vim.lsp.enable('markdown_oxide')
+    '';
+
+    extraPackages = [ pkgs.markdown-oxide ];
 
     # Enable the built-in avante-nvim module
     assistant.avante-nvim = {
