@@ -11,8 +11,11 @@ in {
     ./bqf.nix # Added nvim-bqf configuration
     ./bufferline.nix
     ./cheatsheet.nix
+    ./conform.nix # Added conform.nvim for formatting
+    ./formatters-linters.nix # Added formatter and linter tools
     ./harpoon.nix
     ./keymaps.nix
+    ./nvim-lint.nix # Added nvim-lint for linting
     ./oil.nix
     ./theme.nix
     ./undotree.nix
@@ -29,6 +32,19 @@ in {
     # Suppress lspconfig deprecation warning until NVF migrates to vim.lsp.config
     luaConfigRC.suppress-lspconfig-warning = ''
       vim.deprecate = function() end
+    '';
+
+    # Configure diagnostics display
+    # Since you use Trouble, you can disable inline display and only see diagnostics in Trouble
+    luaConfigRC.diagnostic-config = ''
+      vim.diagnostic.config({
+        -- Disable inline display (use Trouble instead)
+        virtual_text = false,  -- No text at end of lines
+        signs = true,          -- Keep gutter signs (W/E icons)
+        underline = false,     -- No underlines
+        update_in_insert = false,
+        severity_sort = true,
+      })
     '';
 
     clipboard = {
@@ -80,7 +96,7 @@ in {
 
     lsp = {
       enable = true;
-      formatOnSave = true;
+      formatOnSave = false; # Disabled - using conform.nvim format-on-save instead
       lspkind.enable = false;
       lightbulb.enable = true;
       lspsaga.enable = false;
@@ -88,6 +104,9 @@ in {
       lspSignature.enable = true;
       otter-nvim.enable = true;
       nvim-docs-view.enable = true;
+      mappings = {
+        format = null; # Disable LSP format keybinding (using conform.nvim <leader>lf instead)
+      };
     };
 
     debugger = {

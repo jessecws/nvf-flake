@@ -1,2 +1,16 @@
-# ingore nix flake builds result directory
+# Nix flake builds result directory
 /result
+
+# Documentation (local reference only)
+/docs
+
+# Test files
+test_*.md
+test_*.lua
+
+# Prettier config (generated in Nix store)
+.prettierrc.json
+
+# Temporary files
+*.tmp
+.DS_Store
